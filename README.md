@@ -42,14 +42,14 @@ function usersFriendsAndTheirFriends(userId) {
 I wanted another solution. One that didn't require as many variables in `usersFriendsAndTheirFriends`.
 
 ``` js
-import { pipe } from 'composable-promise'
+import { thread, partialRight } from 'composable-promise'
 
 function usersFriendsAndTheirFriends(userId) {
-  return pipe(userId, getFriends, getFriendsFriends, flattenFriends)
+  return thread(userId, getFriends, partialRight(getFriendsFriends), flattenFriends)
 }
 ```
 
-The `pipe()` function is similar to Clojure's [`->` or thread](https://clojure.org/guides/threading_macros) macro.
+The `thread()` function is similar to Clojure's [`->` or thread](https://clojure.org/guides/threading_macros) macro. `partialRight()` is very much like lodash's [partialRight](https://lodash.com/docs/4.17.4#partialRight).
 
 ## What do you think?
 
